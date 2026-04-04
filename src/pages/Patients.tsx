@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Input, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ClearOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import type { TablePaginationConfig } from 'antd';
@@ -116,7 +116,7 @@ export default function Patients() {
     form.setFieldsValue({
       firstName: record.firstName,
       lastName: record.lastName,
-      birthDate: record.birthDate,
+      birthDate: record.birthDate ? dayjs(record.birthDate) : null,
       gender: record.gender,
       phone: record.phone,
       email: record.email,
@@ -134,12 +134,13 @@ export default function Patients() {
     try {
       const values = await form.validateFields();
       setSaving(true);
+      const birthDate = values.birthDate ? dayjs(values.birthDate).format('YYYY-MM-DD') : null;
       if (editingRecord) {
-        const payload: UpdatePatientRequest = values;
+        const payload: UpdatePatientRequest = { ...values, birthDate };
         await updatePatient(editingRecord.id, payload);
         message.success('Hasta güncellendi');
       } else {
-        const payload: CreatePatientRequest = values;
+        const payload: CreatePatientRequest = { ...values, birthDate };
         await createPatient(payload);
         message.success('Hasta oluşturuldu');
       }
@@ -344,7 +345,7 @@ export default function Patients() {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item name="birthDate" label="Doğum Tarihi">
-                <Input placeholder="YYYY-MM-DD" />
+                <DatePicker style={{ width: '100%' }} format="DD.MM.YYYY" placeholder="Tarih seçin" />
               </Form.Item>
             </Col>
             <Col span={12}>
