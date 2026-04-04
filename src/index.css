@@ -6,7 +6,7 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #fdf8f9;
+  background: #fdf5f8;
 }
 
 /* Smooth transitions */
@@ -37,8 +37,8 @@ body {
 
 /* Selection */
 ::selection {
-  background: #f0c8da;
-  color: #4a1a33;
+  background: #fde8f0;
+  color: #3d1020;
 }
 
 /* Ant Design table header */
@@ -54,25 +54,48 @@ body {
   transition: all 0.2s !important;
 }
 
-/* Menu items spacing */
-.ant-menu-dark .ant-menu-item {
-  margin: 2px 8px !important;
-  border-radius: 8px !important;
-  height: 42px !important;
-  line-height: 42px !important;
-}
-
 /* Card hover */
 .ant-card {
-  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+  transition: box-shadow 0.2s ease, transform 0.15s ease !important;
 }
 
 .ant-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+  box-shadow: 0 4px 16px rgba(180,100,40,0.10) !important;
+  transform: translateY(-1px);
 }
 
 /* Button focus ring */
 .ant-btn-primary:focus-visible {
-  outline: 2px solid #e8a8c4;
+  outline: 2px solid #e8a8c0;
   outline-offset: 2px;
+}
+
+/* Sidebar menu group başlıkları */
+.gleaura-menu .ant-menu-item-group-title {
+  color: #d4a8bc !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.2px !important;
+  padding: 12px 20px 4px !important;
+}
+
+/* Sidebar menu item sol çizgi göstergesi */
+.gleaura-menu .ant-menu-item {
+  height: 40px !important;
+  line-height: 40px !important;
+  border-radius: 10px !important;
+  position: relative;
+}
+
+.gleaura-menu .ant-menu-item-selected::after {
+  display: none !important;
+}
+
+.gleaura-menu .ant-menu-item-selected {
+  position: relative;
+}
+
+/* Header border bottom gölge yerine */
+.ant-layout-header {
+  box-shadow: none !important;
 }

@@ -26,99 +26,160 @@ export default function Login() {
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1a0d14 0%, #4d1e38 45%, #8b3d62 100%)',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* Decorative circles */}
+    <div style={{ display: 'flex', minHeight: '100vh' }}>
+      {/* Sol: Marka paneli */}
       <div style={{
-        position: 'absolute', width: 400, height: 400, borderRadius: '50%',
-        background: 'rgba(255,255,255,0.03)', top: -100, right: -100,
-      }} />
-      <div style={{
-        position: 'absolute', width: 300, height: 300, borderRadius: '50%',
-        background: 'rgba(255,255,255,0.03)', bottom: -80, left: -80,
-      }} />
-
-      <div style={{
-        width: 420,
-        padding: 40,
-        background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(20px)',
-        borderRadius: 20,
-        boxShadow: '0 25px 50px rgba(0,0,0,0.15)',
+        width: '44%',
+        background: 'linear-gradient(160deg, #6a1040 0%, #c4789a 55%, #e8a8c0 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '48px 52px',
+        position: 'relative',
+        overflow: 'hidden',
       }}>
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+        {/* Dekoratif daireler */}
+        <div style={{
+          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.05)', top: -180, right: -200,
+        }} />
+        <div style={{
+          position: 'absolute', width: 320, height: 320, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.06)', bottom: -100, left: -120,
+        }} />
+        <div style={{
+          position: 'absolute', width: 200, height: 200, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.04)', bottom: 180, right: -60,
+        }} />
+
+        {/* Logo */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <div style={{
-            width: 56,
-            height: 56,
-            borderRadius: 16,
-            background: 'linear-gradient(135deg, #a85980, #d4a0b8)',
-            display: 'inline-flex',
+            width: 48,
+            height: 48,
+            borderRadius: 14,
+            background: 'rgba(255,255,255,0.2)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: 800,
             color: '#fff',
-            marginBottom: 16,
-            boxShadow: '0 4px 14px rgba(168, 89, 128, 0.35)',
+            border: '1px solid rgba(255,255,255,0.3)',
           }}>
             G
           </div>
-          <Typography.Title level={3} style={{ margin: 0, fontWeight: 700 }}>
-            Gleaura Clinic
-          </Typography.Title>
-          <Typography.Text type="secondary" style={{ fontSize: 14 }}>
-            Yönetim paneline giriş yapın
-          </Typography.Text>
         </div>
 
-        <Form onFinish={onFinish} autoComplete="off" size="large" layout="vertical">
-          <Form.Item
-            name="username"
-            label="Kullanıcı Adı"
-            rules={[{ required: true, message: 'Kullanıcı adı gerekli' }]}
-          >
-            <Input
-              prefix={<UserOutlined style={{ color: '#9ca3af' }} />}
-              placeholder="Kullanıcı adınızı girin"
-              style={{ height: 46 }}
-            />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Şifre"
-            rules={[{ required: true, message: 'Şifre gerekli' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined style={{ color: '#9ca3af' }} />}
-              placeholder="Şifrenizi girin"
-              style={{ height: 46 }}
-            />
-          </Form.Item>
-          <Form.Item style={{ marginBottom: 0, marginTop: 8 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              size="large"
-              loading={loading}
-              style={{
-                height: 48,
-                fontWeight: 600,
-                fontSize: 16,
-                borderRadius: 10,
-              }}
+        {/* Orta: Slogan */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <Typography.Title level={1} style={{
+            color: '#fff',
+            fontWeight: 800,
+            fontSize: 38,
+            lineHeight: 1.2,
+            margin: 0,
+            marginBottom: 16,
+          }}>
+            Gleaura<br />Clinic
+          </Typography.Title>
+          <Typography.Text style={{
+            color: 'rgba(255,255,255,0.80)',
+            fontSize: 16,
+            lineHeight: 1.7,
+            display: 'block',
+          }}>
+            Medikal estetik kliniğiniz için<br />
+            modern yönetim platformu.
+          </Typography.Text>
+
+          {/* Özellik listesi */}
+          <div style={{ marginTop: 36, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {['Hasta & randevu takibi', 'Tedavi yönetimi', 'Rol tabanlı erişim kontrolü'].map((f) => (
+              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{
+                  width: 20, height: 20, borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.25)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 10, color: '#fff', flexShrink: 0,
+                }}>✓</div>
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: 14 }}>{f}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Alt */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <Typography.Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>
+            © 2025 Gleaura. Tüm hakları saklıdır.
+          </Typography.Text>
+        </div>
+      </div>
+
+      {/* Sağ: Form paneli */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: '#fdf5f8',
+        padding: '48px 40px',
+      }}>
+        <div style={{ width: '100%', maxWidth: 380 }}>
+          <div style={{ marginBottom: 36 }}>
+            <Typography.Title level={2} style={{ margin: 0, fontWeight: 800, color: '#3d1020' }}>
+              Tekrar hoş geldiniz
+            </Typography.Title>
+            <Typography.Text style={{ color: '#c490aa', fontSize: 15 }}>
+              Devam etmek için giriş yapın
+            </Typography.Text>
+          </div>
+
+          <Form onFinish={onFinish} autoComplete="off" size="large" layout="vertical">
+            <Form.Item
+              name="username"
+              label={<span style={{ color: '#5a2a3a', fontWeight: 600 }}>Kullanıcı Adı</span>}
+              rules={[{ required: true, message: 'Kullanıcı adı gerekli' }]}
             >
-              Giriş Yap
-            </Button>
-          </Form.Item>
-        </Form>
+              <Input
+                prefix={<UserOutlined style={{ color: '#c4789a' }} />}
+                placeholder="Kullanıcı adınızı girin"
+                style={{ height: 48, borderRadius: 10 }}
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label={<span style={{ color: '#5a2a3a', fontWeight: 600 }}>Şifre</span>}
+              rules={[{ required: true, message: 'Şifre gerekli' }]}
+            >
+              <Input.Password
+                prefix={<LockOutlined style={{ color: '#c4789a' }} />}
+                placeholder="Şifrenizi girin"
+                style={{ height: 48, borderRadius: 10 }}
+              />
+            </Form.Item>
+            <Form.Item style={{ marginBottom: 0, marginTop: 8 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                size="large"
+                loading={loading}
+                style={{
+                  height: 50,
+                  fontWeight: 700,
+                  fontSize: 16,
+                  borderRadius: 12,
+                  letterSpacing: 0.3,
+                }}
+              >
+                Giriş Yap
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
       </div>
     </div>
   );

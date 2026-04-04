@@ -19,22 +19,23 @@ import { useAuth } from '../context/AuthContext';
 
 const { Header, Sider, Content } = Layout;
 
-interface MenuItem {
+interface MenuItemDef {
   key: string;
   icon: ReactNode;
   label: string;
   requiredPermission?: string;
+  group: string;
 }
 
-const allMenuItems: MenuItem[] = [
-  { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard' },
-  { key: '/patients', icon: <TeamOutlined />, label: 'Hastalar', requiredPermission: 'PATIENT_READ' },
-  { key: '/appointments', icon: <CalendarOutlined />, label: 'Randevular', requiredPermission: 'APPOINTMENT_READ' },
-  { key: '/treatments', icon: <MedicineBoxOutlined />, label: 'Tedaviler', requiredPermission: 'TREATMENT_READ' },
-  { key: '/users', icon: <UserOutlined />, label: 'Kullanıcılar', requiredPermission: 'USER_READ' },
-  { key: '/roles', icon: <CrownOutlined />, label: 'Roller', requiredPermission: 'ROLES_READ' },
-  { key: '/permissions', icon: <SafetyOutlined />, label: 'Yetkiler', requiredPermission: 'PERMISSION_READ' },
-  { key: '/settings', icon: <SettingOutlined />, label: 'Ayarlar' },
+const allMenuItems: MenuItemDef[] = [
+  { key: '/dashboard', icon: <DashboardOutlined />, label: 'Dashboard', group: 'KLİNİK' },
+  { key: '/patients', icon: <TeamOutlined />, label: 'Hastalar', requiredPermission: 'PATIENT_READ', group: 'KLİNİK' },
+  { key: '/appointments', icon: <CalendarOutlined />, label: 'Randevular', requiredPermission: 'APPOINTMENT_READ', group: 'KLİNİK' },
+  { key: '/treatments', icon: <MedicineBoxOutlined />, label: 'Tedaviler', requiredPermission: 'TREATMENT_READ', group: 'KLİNİK' },
+  { key: '/users', icon: <UserOutlined />, label: 'Kullanıcılar', requiredPermission: 'USER_READ', group: 'YÖNETİM' },
+  { key: '/roles', icon: <CrownOutlined />, label: 'Roller', requiredPermission: 'ROLES_READ', group: 'YÖNETİM' },
+  { key: '/permissions', icon: <SafetyOutlined />, label: 'Yetkiler', requiredPermission: 'PERMISSION_READ', group: 'YÖNETİM' },
+  { key: '/settings', icon: <SettingOutlined />, label: 'Ayarlar', group: 'GENEL' },
 ];
 
 export default function MainLayout() {
@@ -44,29 +45,31 @@ export default function MainLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const { token: { borderRadiusLG } } = theme.useToken();
 
-  const menuItems = useMemo(
-    () => allMenuItems
-      .filter((item) => !item.requiredPermission || hasPermission(item.requiredPermission))
-      .map(({ requiredPermission: _, ...item }) => item),
+  const filteredItems = useMemo(
+    () => allMenuItems.filter((item) => !item.requiredPermission || hasPermission(item.requiredPermission)),
     [hasPermission],
   );
+
+  const menuItems = useMemo(() => {
+    const groups: Record<string, typeof filteredItems> = {};
+    for (const item of filteredItems) {
+      if (!groups[item.group]) groups[item.group] = [];
+      groups[item.group].push(item);
+    }
+    return Object.entries(groups).map(([label, children]) => ({
+      type: 'group' as const,
+      label,
+      children: children.map(({ requiredPermission: _, group: __, ...rest }) => rest),
+    }));
+  }, [filteredItems]);
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
   const userMenuItems = [
-    {
-      key: 'profile',
-      icon: <UserOutlined />,
-      label: 'Profil',
-    },
-    {
-      key: 'settings',
-      icon: <SettingOutlined />,
-      label: 'Ayarlar',
-      onClick: () => navigate('/settings'),
-    },
+    { key: 'profile', icon: <UserOutlined />, label: 'Profil' },
+    { key: 'settings', icon: <SettingOutlined />, label: 'Ayarlar', onClick: () => navigate('/settings') },
     { type: 'divider' as const },
     {
       key: 'logout',
@@ -77,16 +80,18 @@ export default function MainLayout() {
     },
   ];
 
+  const currentPage = allMenuItems.find((i) => i.key === location.pathname)?.label ?? 'Sayfa';
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={260}
+        width={240}
         style={{
-          background: 'linear-gradient(180deg, #1a0d14 0%, #4d1e38 50%, #8b3d62 100%)',
-          boxShadow: '2px 0 12px rgba(0,0,0,0.08)',
+          background: '#fff',
+          borderRight: '1px solid #f5d8e5',
           overflow: 'auto',
           position: 'fixed',
           left: 0,
@@ -95,106 +100,121 @@ export default function MainLayout() {
           zIndex: 10,
         }}
       >
+        {/* Logo alanı */}
         <div style={{
-          height: 72,
+          height: 64,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
           gap: 10,
-          padding: '0 16px',
+          padding: collapsed ? '0 22px' : '0 20px',
+          borderBottom: '1px solid #f5d8e5',
         }}>
           <div style={{
-            width: 36,
-            height: 36,
-            borderRadius: 10,
-            background: 'rgba(255,255,255,0.2)',
+            width: 32,
+            height: 32,
+            borderRadius: 8,
+            background: 'linear-gradient(135deg, #c4789a, #e8a8c0)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 800,
             color: '#fff',
-            backdropFilter: 'blur(4px)',
+            flexShrink: 0,
           }}>
             G
           </div>
           {!collapsed && (
-            <span style={{
-              color: '#fff',
-              fontSize: 20,
-              fontWeight: 700,
-              letterSpacing: -0.5,
-            }}>
-              Gleaura Clinic
-            </span>
+            <div>
+              <div style={{ color: '#3d1020', fontSize: 15, fontWeight: 700, lineHeight: 1.2 }}>
+                Gleaura
+              </div>
+              <div style={{ color: '#c490aa', fontSize: 11, fontWeight: 500 }}>Clinic</div>
+            </div>
           )}
         </div>
 
         <Menu
-          theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={({ key }) => navigate(key)}
+          className="gleaura-menu"
           style={{
             background: 'transparent',
             borderRight: 'none',
-            padding: '4px 0',
+            padding: '8px 0',
           }}
         />
       </Sider>
 
       <Layout style={{
-        marginLeft: collapsed ? 80 : 260,
+        marginLeft: collapsed ? 80 : 240,
         transition: 'margin-left 0.2s',
-        background: '#fdf8f9',
+        background: '#fdf5f8',
+        minHeight: '100vh',
       }}>
+        {/* Header */}
         <Header style={{
           padding: '0 28px',
           background: '#fff',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+          borderBottom: '1px solid #f5d8e5',
           position: 'sticky',
           top: 0,
           zIndex: 9,
           height: 64,
         }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{ fontSize: 18, width: 40, height: 40 }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              style={{ fontSize: 16, width: 36, height: 36, color: '#8a5070' }}
+            />
+            <div>
+              <Typography.Text style={{ fontSize: 16, fontWeight: 700, color: '#3d1020', display: 'block', lineHeight: 1.2 }}>
+                {currentPage}
+              </Typography.Text>
+              <Typography.Text style={{ fontSize: 12, color: '#c490aa' }}>
+                Gleaura Clinic
+              </Typography.Text>
+            </div>
+          </div>
+
           <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" trigger={['click']}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
               gap: 10,
               cursor: 'pointer',
-              padding: '4px 12px',
-              borderRadius: 10,
-              transition: 'background 0.2s',
+              padding: '6px 14px 6px 6px',
+              borderRadius: 40,
+              border: '1px solid #f5d8e5',
+              background: '#fffafc',
+              transition: 'all 0.2s',
             }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#fdf0f5')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#c9834a')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#f5d8e5')}
             >
               <Avatar
-                size={36}
+                size={32}
                 style={{
-                  background: 'linear-gradient(135deg, #a85980, #d4a0b8)',
-                  fontWeight: 600,
-                  fontSize: 14,
+                  background: 'linear-gradient(135deg, #c4789a, #e8a8c0)',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  color: '#fff',
                 }}
               >
                 {user.username.substring(0, 2).toUpperCase()}
               </Avatar>
-              <div style={{ lineHeight: 1.3 }}>
-                <Typography.Text strong style={{ display: 'block', fontSize: 14 }}>
+              {!collapsed && (
+                <Typography.Text strong style={{ fontSize: 13, color: '#3d1020' }}>
                   {user.username}
                 </Typography.Text>
-              </div>
+              )}
             </div>
           </Dropdown>
         </Header>
@@ -205,7 +225,7 @@ export default function MainLayout() {
           background: '#fff',
           borderRadius: borderRadiusLG,
           minHeight: 280,
-          boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06)',
+          border: '1px solid #f5d8e5',
         }}>
           <Outlet />
         </Content>
