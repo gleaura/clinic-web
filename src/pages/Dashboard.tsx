@@ -9,25 +9,25 @@ export default function Dashboard() {
     {
       title: 'Hastalar',
       icon: <TeamOutlined />,
-      gradient: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+      gradient: 'linear-gradient(135deg, #a85980, #d4a0b8)',
       description: 'Kayıtlı hastalar',
     },
     {
       title: 'Randevular',
       icon: <CalendarOutlined />,
-      gradient: 'linear-gradient(135deg, #10b981, #059669)',
+      gradient: 'linear-gradient(135deg, #5c8a6e, #7fb89a)',
       description: 'Planlanan randevular',
     },
     {
       title: 'Tedaviler',
       icon: <MedicineBoxOutlined />,
-      gradient: 'linear-gradient(135deg, #f59e0b, #d97706)',
+      gradient: 'linear-gradient(135deg, #c9943a, #e8b86d)',
       description: 'Uygulanan tedaviler',
     },
     {
       title: 'Kullanıcılar',
       icon: <UserOutlined />,
-      gradient: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+      gradient: 'linear-gradient(135deg, #7a9eba, #a8c4d8)',
       description: 'Sistem kullanıcıları',
     },
   ];

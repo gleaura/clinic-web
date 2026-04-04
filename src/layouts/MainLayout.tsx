@@ -85,7 +85,7 @@ export default function MainLayout() {
         collapsed={collapsed}
         width={260}
         style={{
-          background: 'linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%)',
+          background: 'linear-gradient(180deg, #1a0d14 0%, #4d1e38 50%, #8b3d62 100%)',
           boxShadow: '2px 0 12px rgba(0,0,0,0.08)',
           overflow: 'auto',
           position: 'fixed',
@@ -147,7 +147,7 @@ export default function MainLayout() {
       <Layout style={{
         marginLeft: collapsed ? 80 : 260,
         transition: 'margin-left 0.2s',
-        background: '#f5f5f9',
+        background: '#fdf8f9',
       }}>
         <Header style={{
           padding: '0 28px',
@@ -177,13 +177,13 @@ export default function MainLayout() {
               borderRadius: 10,
               transition: 'background 0.2s',
             }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = '#f5f5f5')}
+              onMouseEnter={(e) => (e.currentTarget.style.background = '#fdf0f5')}
               onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
             >
               <Avatar
                 size={36}
                 style={{
-                  background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+                  background: 'linear-gradient(135deg, #a85980, #d4a0b8)',
                   fontWeight: 600,
                   fontSize: 14,
                 }}

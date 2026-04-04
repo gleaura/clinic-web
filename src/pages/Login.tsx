@@ -31,7 +31,7 @@ export default function Login() {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4f46e5 100%)',
+      background: 'linear-gradient(135deg, #1a0d14 0%, #4d1e38 45%, #8b3d62 100%)',
       position: 'relative',
       overflow: 'hidden',
     }}>
@@ -58,7 +58,7 @@ export default function Login() {
             width: 56,
             height: 56,
             borderRadius: 16,
-            background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+            background: 'linear-gradient(135deg, #a85980, #d4a0b8)',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -66,7 +66,7 @@ export default function Login() {
             fontWeight: 800,
             color: '#fff',
             marginBottom: 16,
-            boxShadow: '0 4px 12px rgba(79, 70, 229, 0.3)',
+            boxShadow: '0 4px 14px rgba(168, 89, 128, 0.35)',
           }}>
             G
           </div>
