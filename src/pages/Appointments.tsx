@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Input, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ClearOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import { formatDateTime, toApiDateTime, fromApiDateTime } from '../utils/dateUtils';
 import type { TablePaginationConfig } from 'antd';
 import type { SorterResult } from 'antd/es/table/interface';
 import {
@@ -118,7 +118,7 @@ export default function Appointments() {
     setEditingRecord(record);
     form.setFieldsValue({
       patientId: record.patientId,
-      appointmentDate: record.appointmentDate ? dayjs(record.appointmentDate).format('YYYY-MM-DDTHH:mm') : '',
+      appointmentDate: fromApiDateTime(record.appointmentDate),
       durationMinutes: record.durationMinutes,
       doctor: record.doctor,
       type: record.type,
@@ -133,7 +133,7 @@ export default function Appointments() {
       setSaving(true);
       if (editingRecord) {
         const payload: UpdateAppointmentRequest = {
-          appointmentDate: values.appointmentDate,
+          appointmentDate: toApiDateTime(values.appointmentDate),
           durationMinutes: values.durationMinutes,
           doctor: values.doctor,
           type: values.type,
@@ -144,7 +144,7 @@ export default function Appointments() {
       } else {
         const payload: CreateAppointmentRequest = {
           patientId: values.patientId,
-          appointmentDate: values.appointmentDate,
+          appointmentDate: toApiDateTime(values.appointmentDate),
           durationMinutes: values.durationMinutes,
           doctor: values.doctor,
           type: values.type,
@@ -192,7 +192,7 @@ export default function Appointments() {
       dataIndex: 'appointmentDate',
       sorter: true,
       sortOrder: getSortOrder('appointmentDate'),
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY HH:mm'),
+      render: (date: string) => formatDateTime(date),
     },
     {
       title: 'Süre (dk)',
@@ -319,7 +319,7 @@ export default function Appointments() {
             </Form.Item>
           )}
           <Form.Item name="appointmentDate" label="Randevu Tarihi" rules={[{ required: true, message: 'Zorunlu alan' }]}>
-            <Input placeholder="YYYY-MM-DDTHH:mm" />
+            <DatePicker showTime={{ format: 'HH:mm' }} format="DD.MM.YYYY HH:mm" style={{ width: '100%' }} placeholder="Tarih ve saat seçin" />
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Form, Input, InputNumber, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, InputNumber, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ClearOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import { formatDateTime, toApiDateTime, fromApiDateTime } from '../utils/dateUtils';
 import type { TablePaginationConfig } from 'antd';
 import type { SorterResult } from 'antd/es/table/interface';
 import {
@@ -109,7 +109,7 @@ export default function Treatments() {
       appointmentId: record.appointmentId,
       name: record.name,
       description: record.description,
-      treatmentDate: record.treatmentDate ? dayjs(record.treatmentDate).format('YYYY-MM-DDTHH:mm') : '',
+      treatmentDate: fromApiDateTime(record.treatmentDate),
       cost: record.cost,
       currency: record.currency,
       note: record.note,
@@ -125,7 +125,7 @@ export default function Treatments() {
         const payload: UpdateTreatmentRequest = {
           name: values.name,
           description: values.description,
-          treatmentDate: values.treatmentDate,
+          treatmentDate: toApiDateTime(values.treatmentDate),
           cost: values.cost,
           currency: values.currency,
           note: values.note,
@@ -137,7 +137,7 @@ export default function Treatments() {
           appointmentId: values.appointmentId,
           name: values.name,
           description: values.description,
-          treatmentDate: values.treatmentDate,
+          treatmentDate: toApiDateTime(values.treatmentDate),
           cost: values.cost,
           currency: values.currency,
           note: values.note,
@@ -184,7 +184,7 @@ export default function Treatments() {
       dataIndex: 'treatmentDate',
       sorter: true,
       sortOrder: getSortOrder('treatmentDate'),
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY HH:mm'),
+      render: (date: string) => formatDateTime(date),
     },
     {
       title: 'Maliyet',
@@ -209,7 +209,7 @@ export default function Treatments() {
     {
       title: 'Kayıt Tarihi',
       dataIndex: 'createdDate',
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY'),
+      render: (date: string) => formatDateTime(date),
     },
     ...((canUpdate || canDelete) ? [{
       title: 'İşlemler',
@@ -302,7 +302,7 @@ export default function Treatments() {
             <Input />
           </Form.Item>
           <Form.Item name="treatmentDate" label="Tedavi Tarihi" rules={[{ required: true, message: 'Zorunlu alan' }]}>
-            <Input placeholder="YYYY-MM-DDTHH:mm" />
+            <DatePicker showTime={{ format: 'HH:mm' }} format="DD.MM.YYYY HH:mm" style={{ width: '100%' }} placeholder="Tarih ve saat seçin" />
           </Form.Item>
           <Form.Item name="description" label="Açıklama">
             <Input.TextArea rows={2} />

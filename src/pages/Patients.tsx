@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Col, DatePicker, Form, Input, message, Modal, Popconfirm, Row, Select, Space, Table, Tag, Typography } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined, ClearOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import { formatDate, formatDateTime, toApiDate, fromApiDate } from '../utils/dateUtils';
 import type { TablePaginationConfig } from 'antd';
 import type { SorterResult } from 'antd/es/table/interface';
 import {
@@ -116,7 +116,7 @@ export default function Patients() {
     form.setFieldsValue({
       firstName: record.firstName,
       lastName: record.lastName,
-      birthDate: record.birthDate ? dayjs(record.birthDate) : null,
+      birthDate: fromApiDate(record.birthDate),
       gender: record.gender,
       phone: record.phone,
       email: record.email,
@@ -134,7 +134,7 @@ export default function Patients() {
     try {
       const values = await form.validateFields();
       setSaving(true);
-      const birthDate = values.birthDate ? dayjs(values.birthDate).format('YYYY-MM-DD') : null;
+      const birthDate = toApiDate(values.birthDate);
       if (editingRecord) {
         const payload: UpdatePatientRequest = { ...values, birthDate };
         await updatePatient(editingRecord.id, payload);
@@ -199,7 +199,7 @@ export default function Patients() {
     {
       title: 'Doğum Tarihi',
       dataIndex: 'birthDate',
-      render: (date: string | null) => date ? dayjs(date).format('DD.MM.YYYY') : '—',
+      render: (date: string | null) => formatDate(date),
     },
     {
       title: 'Durum',
@@ -213,7 +213,7 @@ export default function Patients() {
     {
       title: 'Kayıt Tarihi',
       dataIndex: 'createdDate',
-      render: (date: string) => dayjs(date).format('DD.MM.YYYY'),
+      render: (date: string) => formatDateTime(date),
     },
     ...((canUpdate || canDelete) ? [{
       title: 'İşlemler',
