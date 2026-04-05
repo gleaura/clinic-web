@@ -12,6 +12,7 @@ import {
   TeamOutlined,
   CalendarOutlined,
   MedicineBoxOutlined,
+  IdcardOutlined,
 } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import { Outlet, useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -32,6 +33,7 @@ const allMenuItems: MenuItemDef[] = [
   { key: '/patients', icon: <TeamOutlined />, label: 'Hastalar', requiredPermission: 'PATIENT_READ', group: 'KLİNİK' },
   { key: '/appointments', icon: <CalendarOutlined />, label: 'Randevular', requiredPermission: 'APPOINTMENT_READ', group: 'KLİNİK' },
   { key: '/treatments', icon: <MedicineBoxOutlined />, label: 'Tedaviler', requiredPermission: 'TREATMENT_READ', group: 'KLİNİK' },
+  { key: '/staff', icon: <IdcardOutlined />, label: 'Personel', requiredPermission: 'STAFF_READ', group: 'KLİNİK' },
   { key: '/users', icon: <UserOutlined />, label: 'Kullanıcılar', requiredPermission: 'USER_READ', group: 'YÖNETİM' },
   { key: '/roles', icon: <CrownOutlined />, label: 'Roller', requiredPermission: 'ROLES_READ', group: 'YÖNETİM' },
   { key: '/permissions', icon: <SafetyOutlined />, label: 'Yetkiler', requiredPermission: 'PERMISSION_READ', group: 'YÖNETİM' },

@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Patients from './pages/Patients';
 import Appointments from './pages/Appointments';
 import Treatments from './pages/Treatments';
+import Staff from './pages/Staff';
 import Users from './pages/Users';
 import Roles from './pages/Roles';
 import Permissions from './pages/Permissions';
@@ -91,6 +92,7 @@ export default function App() {
               <Route path="/patients" element={<Patients />} />
               <Route path="/appointments" element={<Appointments />} />
               <Route path="/treatments" element={<Treatments />} />
+              <Route path="/staff" element={<Staff />} />
               <Route path="/users" element={<Users />} />
               <Route path="/roles" element={<Roles />} />
               <Route path="/permissions" element={<Permissions />} />
