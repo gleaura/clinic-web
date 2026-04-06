@@ -9,5 +9,5 @@ docker push ozanemrahyakupoglu/clinic-web:1.0.0
 ## Run
 docker run -d \
   --name clinic-web \
-  -p 8091:5173 \
+  -p 8091:8091 \
   ozanemrahyakupoglu/clinic-web:1.0.0
