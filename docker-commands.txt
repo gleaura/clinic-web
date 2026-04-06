@@ -1,0 +1,13 @@
+# Docker Commands - clinic-web
+
+## Build
+docker build -t ozanemrahyakupoglu/clinic-web:1.0.0 .
+
+## Push (Docker Hub)
+docker push ozanemrahyakupoglu/clinic-web:1.0.0
+
+## Run
+docker run -d \
+  --name clinic-web \
+  -p 8091:5173 \
+  ozanemrahyakupoglu/clinic-web:1.0.0
