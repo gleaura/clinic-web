@@ -139,7 +139,7 @@ export default function Appointments() {
       setSaving(true);
       if (editingRecord) {
         const payload: UpdateAppointmentRequest = {
-          appointmentDate: toApiDateTime(values.appointmentDate),
+          appointmentDate: toApiDateTime(values.appointmentDate)!,
           durationMinutes: values.durationMinutes,
           staffId: values.staffId,
           type: values.type,
@@ -150,7 +150,7 @@ export default function Appointments() {
       } else {
         const payload: CreateAppointmentRequest = {
           patientId: values.patientId,
-          appointmentDate: toApiDateTime(values.appointmentDate),
+          appointmentDate: toApiDateTime(values.appointmentDate)!,
           durationMinutes: values.durationMinutes,
           staffId: values.staffId,
           type: values.type,

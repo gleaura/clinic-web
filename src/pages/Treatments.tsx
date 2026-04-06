@@ -125,7 +125,7 @@ export default function Treatments() {
         const payload: UpdateTreatmentRequest = {
           name: values.name,
           description: values.description,
-          treatmentDate: toApiDateTime(values.treatmentDate),
+          treatmentDate: toApiDateTime(values.treatmentDate)!,
           cost: values.cost,
           currency: values.currency,
           note: values.note,
@@ -137,7 +137,7 @@ export default function Treatments() {
           appointmentId: values.appointmentId,
           name: values.name,
           description: values.description,
-          treatmentDate: toApiDateTime(values.treatmentDate),
+          treatmentDate: toApiDateTime(values.treatmentDate)!,
           cost: values.cost,
           currency: values.currency,
           note: values.note,
